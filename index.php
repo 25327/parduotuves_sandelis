@@ -1,3 +1,3 @@
 <?php
-echo 'parduotuves sandelis';
+echo 'parduotuves sandelisss';
 ?>
