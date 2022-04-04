@@ -1,4 +1,4 @@
 <?php
 echo 'parduotuves sandelisss';
-echo date('h');
+echo date('H:i:s');
 ?>
