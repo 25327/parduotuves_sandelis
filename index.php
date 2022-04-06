@@ -1,8 +1,8 @@
 <?php
-
+include_once 'config.php';
 ?>
 
-<form action="#">
+<form action="index.php">
     <fieldset>
         <legend>Prisijungimas:</legend>
         Paštas: <input type="email" id="email" name="email">
@@ -13,6 +13,12 @@
         <hr>
         Neturite paskyros? Užsiregistruokite!
         <br>
-        <a href="#">Registruotis</a>
+        <a href="index.php?page=registration">Registruotis</a>
     </fieldset>
 </form>
+
+<?php
+if ($page === 'register') {
+    include 'pages/registration.php';
+}
+?>
