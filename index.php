@@ -14,9 +14,6 @@ include_once 'config.php';
                 </td>
             <?php } else { ?>
                 <td>
-                    <a href="index.php">Pradžia</a>
-                </td>
-                <td>
                     <a href="index.php?page=warehouse">Sandėlis</a>
                 </td>
                 <td>
