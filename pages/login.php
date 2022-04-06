@@ -46,6 +46,6 @@ if (isset($_POST['pastas'])) {
         <hr>
         Neturite paskyros? Užsiregistruokite!
         <br>
-        <a href="index.php?page=registration">Registruotis</a>
+        <a href="index.php?page=register">Registruotis</a>
     </fieldset>
 </form>
