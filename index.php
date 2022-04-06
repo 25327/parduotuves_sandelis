@@ -1,22 +1,39 @@
 <?php
 include_once 'config.php';
 ?>
-
     <h1>Prekių valdymo sistema</h1>
 
     <table>
-        <?php if (isLoged() === false) { ?>
-            <td>
-                <a href="index.php?page=login">Login</a>
-            </td>
-            <td>
-                <a href="index.php?page=register">Register</a>
-            </td>
-        <?php } ?>
+        <tr>
+            <?php if (isLoged() === false) { ?>
+                <td>
+                    <a href="index.php?page=login">Prisijungti</a>
+                </td>
+                <td>
+                    <a href="index.php?page=register">Registruotis</a>
+                </td>
+            <?php } ?>
+            <?php if (isLoged() === true) { ?>
+                <td>
+                    <a href="index.php">Pradžia</a>
+                </td>
+                <td>
+                    <a href="index.php?page=warehouse">Sandėlis</a>
+                </td>
+                <td>
+                    <a href="index.php?page=shops">Parduotuvės</a>
+                </td>
+                <td>
+                    <a href="index.php?page=logout">Atsijungti</a>
+                </td>
+            <?php } ?>
+        </tr>
     </table>
 
 <?php
 if ($page === 'register') {
     include 'pages/registration.php';
+} elseif ($page === 'login') {
+    include 'pages/login.php';
 }
 ?>
