@@ -12,8 +12,7 @@ include_once 'config.php';
                 <td>
                     <a href="index.php?page=register">Registruotis</a>
                 </td>
-            <?php } ?>
-            <?php if (isLoged() === true) { ?>
+            <?php } else { ?>
                 <td>
                     <a href="index.php">Pradžia</a>
                 </td>

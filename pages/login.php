@@ -6,19 +6,41 @@ if (isset($_POST['pastas'])) {
     $errors = [];
 
     if (empty($email) || empty($password)) {
-        $errors[] =
+        $errors[] = 'Užpildykite visus laukus';
+    }
+
+    $sql = 'select * from darbuotojai where pastas = "' . $email . '" and slaptazodis = "' . $password . '"';
+    $checkUser = mysqli_query($database, $sql);
+    var_dump($checkUser);
+
+    if ($checkUser == null) {
+        $errors[] = 'Blogi prisijungimo duomenys';
+    }
+
+    if (empty($errors)) {
+        $_SESSION['email'] = $email;
+        header('Location: index.php');
     }
 }
 ?>
 
-<form action="index.php">
+<ul>
+    <?php
+    if (isset($errors)) {
+        foreach ($errors as $error) {
+            ?>
+            <li>
+                <?php echo $error ?>
+            </li>
+        <?php }
+    } ?>
+</ul>
+<form action="index.php?page=login" method="post">
     <fieldset>
-        <legend>
-            <a href="index.php">Prisijungimas:</a>
-        </legend>
-        Paštas: <input type="email" name="pastas">
+        <legend>Prisijungimas:</legend>
+        Paštas: <input type="email" name="pastas" value="<?php echo $_GET['email'] ?? null ?>">
         <br><br>
-        Slaptažodis: <input type="text" name="slaptazodis">
+        Slaptažodis: <input type="password" name="slaptazodis">
         <br><br>
         <button type="submit">Prisijungti</button>
         <hr>
