@@ -19,10 +19,17 @@ $database = mysqli_connect($ip, $username, $password, $database);
 // Tikrinam ar pavyko prisijungti prie duomenu bazes
 if (!$database) {
     die("Connection failed: " . mysqli_connect_error());
-} else {
-    echo 'pavyko prisijungti';
 }
 
 $page = $_REQUEST['page'] ?? null;
+
+function isLoged(): bool
+{
+    if (isset($_SESSION['email'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 ?>
