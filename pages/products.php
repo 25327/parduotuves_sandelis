@@ -1,8 +1,16 @@
 <?php
-if (isset($_POST['pavadinimas'])) {
+$action = $_GET['action'] ?? null;
+if ($action === 'save') {
     $saveProduct = 'insert into produktai (kategorija, pavadinimas, kaina, galiojimo_dienos) value ("' . $_POST['kategorija'] . '", "' . $_POST['pavadinimas'] . '", "' . $_POST['kaina'] . '", "' . $_POST['galiojimo_dienos'] . '")';
     mysqli_query($database, $saveProduct);
 }
+
+$result = mysqli_query($database, 'select * from produktai');
+$products = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+echo '<pre>';
+print_r($products);
+echo '</pre>';
 ?>
 
 <h1>Produktai</h1>
