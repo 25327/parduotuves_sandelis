@@ -60,7 +60,7 @@ if (isset($_POST['pastas'])) {
         Pareigos: <select name="pareigybe">
             <option value="sandelio_darbuotojas"
                 <?php
-                if (($position ?? null) == 'sandelio_darbuotojas') {
+                if (($position ?? null) == 'Sandėlio darbuotojas') {
                     echo 'selected';
                 }
                 ?>
@@ -69,7 +69,7 @@ if (isset($_POST['pastas'])) {
             </option>
             <option value="parduotuves_darbuotojas"
                 <?php
-                if (($position ?? null) == 'parduotuves darbuotojas') {
+                if (($position ?? null) == 'Parduotuvės darbuotojas') {
                     echo 'selected';
                 }
                 ?>

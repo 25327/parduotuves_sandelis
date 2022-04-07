@@ -11,7 +11,6 @@ if (isset($_POST['pastas'])) {
 
     $sql = 'select * from darbuotojai where pastas = "' . $email . '" and slaptazodis = "' . $password . '"';
     $checkUser = mysqli_query($database, $sql);
-    var_dump($checkUser);
 
     if ($checkUser == null) {
         $errors[] = 'Blogi prisijungimo duomenys';

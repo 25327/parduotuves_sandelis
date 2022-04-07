@@ -33,5 +33,9 @@ if ($page === 'register') {
     include 'pages/login.php';
 } elseif ($page === 'logout') {
     include 'pages/logout.php';
+} elseif ($page === 'warehouse') {
+    include 'pages/warehouse.php';
+} elseif ($page === 'shops') {
+    include 'pages/shops.php';
 }
 ?>
