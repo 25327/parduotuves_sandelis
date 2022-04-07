@@ -32,4 +32,12 @@ function isLoged(): bool
     }
 }
 
+function getUser($database, $email)
+{
+    $user = mysqli_query($database, 'select * from darbuotojai where pastas = "' . $email . '"');
+    $user = mysqli_fetch_row($user);
+
+    return $user;
+}
+
 ?>

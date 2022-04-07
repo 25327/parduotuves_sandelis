@@ -14,19 +14,26 @@ include_once 'config.php';
                 </td>
             <?php } else { ?>
                 <?php
-                if (isset($_POST['sandelio_darbuotojas'])) {
-                    var_dump($_POST['sandelio_darbuotojas']);?>
-                    <td>
-                        <a href="index.php?page=warehouse">Sandėlis</a>
-                    </td>
-                    <td>
-                        <a href="index.php?page=products">Produktai</a>
-                    </td>
-                <?php } else { ?>
-                    <td>
-                        <a href="index.php?page=shops">Parduotuvės</a>
-                    </td>
-                <?php } ?>
+                switch (getUser($database, $_SESSION['email'])[1]) {
+                    case 'sandelio_darbuotojas';
+                        ?>
+                        <td>
+                            <a href="index.php?page=warehouse">Sandėlis</a>
+                        </td>
+                        <td>
+                            <a href="index.php?page=products">Produktai</a>
+                        </td>
+                        <?php
+                        break;
+                    case 'parduotuves_darbuotojas';
+                        ?>
+                        <td>
+                            <a href="index.php?page=shops">Parduotuvės</a>
+                        </td>
+                        <?php
+                        break;
+                }
+                ?>
                 <td>
                     <a href="index.php?page=logout">Atsijungti</a>
                 </td>
