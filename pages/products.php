@@ -4,13 +4,6 @@ if ($action === 'save') {
     $saveProduct = 'insert into produktai (kategorija, pavadinimas, kaina, galiojimo_dienos) value ("' . $_POST['kategorija'] . '", "' . $_POST['pavadinimas'] . '", "' . $_POST['kaina'] . '", "' . $_POST['galiojimo_dienos'] . '")';
     mysqli_query($database, $saveProduct);
 }
-
-$result = mysqli_query($database, 'select * from produktai');
-$products = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-echo '<pre>';
-print_r($products);
-echo '</pre>';
 ?>
 
 <h1>Produktai</h1>
@@ -46,14 +39,7 @@ echo '</pre>';
                 Galiojimo laikas (dienomis):
             </td>
             <td>
-                <select name="galiojimo_dienos">
-                    <option value="">-</option>
-                    <?php for ($i = 1; $i <= 20; $i++) { ?>
-                        <option value="<?php echo $i; ?>">
-                            <?php echo $i ?>
-                        </option>
-                    <?php } ?>
-                </select>
+                <input type="number" name="galiojimo_dienos">
             </td>
         </tr>
     </table>
