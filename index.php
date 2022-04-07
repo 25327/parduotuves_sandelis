@@ -20,6 +20,9 @@ include_once 'config.php';
                     <a href="index.php?page=shops">Parduotuvės</a>
                 </td>
                 <td>
+                    <a href="index.php?page=products">Produktai</a>
+                </td>
+                <td>
                     <a href="index.php?page=logout">Atsijungti</a>
                 </td>
             <?php } ?>
@@ -37,5 +40,7 @@ if ($page === 'register') {
     include 'pages/warehouse.php';
 } elseif ($page === 'shops') {
     include 'pages/shops.php';
+} elseif ($page === 'products') {
+    include 'pages/products.php';
 }
 ?>
