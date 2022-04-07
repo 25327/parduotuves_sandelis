@@ -13,15 +13,20 @@ include_once 'config.php';
                     <a href="index.php?page=register">Registruotis</a>
                 </td>
             <?php } else { ?>
-                <td>
-                    <a href="index.php?page=warehouse">Sandėlis</a>
-                </td>
-                <td>
-                    <a href="index.php?page=shops">Parduotuvės</a>
-                </td>
-                <td>
-                    <a href="index.php?page=products">Produktai</a>
-                </td>
+                <?php
+                if (isset($_POST['sandelio_darbuotojas'])) {
+                    var_dump($_POST['sandelio_darbuotojas']);?>
+                    <td>
+                        <a href="index.php?page=warehouse">Sandėlis</a>
+                    </td>
+                    <td>
+                        <a href="index.php?page=products">Produktai</a>
+                    </td>
+                <?php } else { ?>
+                    <td>
+                        <a href="index.php?page=shops">Parduotuvės</a>
+                    </td>
+                <?php } ?>
                 <td>
                     <a href="index.php?page=logout">Atsijungti</a>
                 </td>

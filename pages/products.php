@@ -31,7 +31,7 @@ if ($action === 'save') {
                 Kaina
             </td>
             <td>
-                <input type="number" name="kaina">
+                <input type="text" name="kaina">
             </td>
         </tr>
         <tr>
