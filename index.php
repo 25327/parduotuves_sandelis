@@ -18,7 +18,7 @@ include_once 'config.php';
                     case 'sandelio_darbuotojas';
                         ?>
                         <td>
-                            <a href="index.php?page=warehouse">Sandėlis</a>
+                            <a href="index.php?page=warehouse_products">Sandėlis</a>
                         </td>
                         <td>
                             <a href="index.php?page=products">Produktai</a>
@@ -48,8 +48,8 @@ if ($page === 'register') {
     include 'pages/login.php';
 } elseif ($page === 'logout') {
     include 'pages/logout.php';
-} elseif ($page === 'warehouse') {
-    include 'pages/warehouse.php';
+} elseif ($page === 'warehouse_products') {
+    include 'pages/warehouse_products.php';
 } elseif ($page === 'shops') {
     include 'pages/shops.php';
 } elseif ($page === 'products') {
