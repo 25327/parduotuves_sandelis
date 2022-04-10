@@ -3,7 +3,13 @@ $action = $_GET['action'] ?? null;
 if ($action === 'save') {
     $saveProduct = 'insert into produktai (kategorija, pavadinimas, kaina, galiojimo_dienos) value ("' . $_POST['kategorija'] . '", "' . $_POST['pavadinimas'] . '", "' . $_POST['kaina'] . '", "' . $_POST['galiojimo_dienos'] . '")';
     mysqli_query($database, $saveProduct);
+    header('Location: index.php?page=products');
 }
+
+$result = mysqli_query($database, 'select * from produktai');
+
+$products = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
 ?>
 
 <h1>Produktai</h1>
@@ -44,4 +50,33 @@ if ($action === 'save') {
         </tr>
     </table>
     <button type="submit">Išsaugoti</button>
+</form>
+
+<h3>Produktų sąrašas</h3>
+
+<form>
+    <table>
+        <tr>
+            <th>Kategorija</th>
+            <th>Pavadinimas</th>
+            <th>Kaina</th>
+            <th>Galiojimo laikas</th>
+        </tr>
+        <?php foreach ($products as $product) { ?>
+            <tr>
+                <td>
+                    <?php echo $product['kategorija'] ?>
+                </td>
+                <td>
+                    <?php echo $product['pavadinimas'] ?>
+                </td>
+                <td>
+                    <?php echo $product['kaina'] ?>
+                </td>
+                <td>
+                    <?php echo $product['galiojimo_dienos'] ?>
+                </td>
+            </tr>
+        <?php } ?>
+    </table>
 </form>
