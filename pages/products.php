@@ -12,7 +12,7 @@ $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 ?>
 
-<h1>Produktai</h1>
+<h2>Produktai</h2>
 
 <form action="index.php?page=products&action=save" method="post">
     <table>
@@ -52,7 +52,7 @@ $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <button type="submit">Išsaugoti</button>
 </form>
 
-<h3>Produktų sąrašas</h3>
+<h2>Produktų sąrašas</h2>
 
 <form>
     <table>
