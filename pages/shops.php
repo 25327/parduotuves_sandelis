@@ -124,7 +124,7 @@ if ($action === 'order') {
             </td>
             <td>
                 <?php foreach ($lists as $list) {
-                        echo $list['galioja_iki'] . '<br>';
+                    echo $list['galioja_iki'] . '<br>';
                 }
                 ?>
             </td>

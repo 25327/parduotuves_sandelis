@@ -4,12 +4,22 @@ $products = mysqli_fetch_all($getProduct, MYSQLI_ASSOC);
 
 $action = $_GET['action'] ?? null;
 if ($action === 'order') {
+    $likutis = $_POST['likutis'] ?? 0;
     if ($_POST['likutis'] > 0) {
-        $saveToWarehouse = 'insert into sandelio_produktai (produkto_id, likutis) value ("' . $_POST['produkto_id'] . '", "' . $_POST['likutis'] . '")';
-        mysqli_query($database, $saveToWarehouse);
-        header('Location: index.php?page=warehouse_products');
-    } else {
-        echo 'Užsakomas kiekis turi būti 1 ir daugiau';
+        $produkto_id = $_POST['produkto_id'];
+        $sql = "select * from sandelio_produktai where produkto_id = $produkto_id";
+        $sqlResult = mysqli_query($database, $sql);
+        $row = mysqli_fetch_row($sqlResult);
+        echo '<pre>';
+        print_r($row);
+
+        if ($row == null) {
+            $saveToWarehouse = 'insert into sandelio_produktai (produkto_id, likutis) value ("' . $_POST['produkto_id'] . '", "' . $_POST['likutis'] . '")';
+            mysqli_query($database, $saveToWarehouse);
+        } else {
+            $sql = "update sandelio_produktai set likutis = likutis + $likutis where produkto_id = $produkto_id";
+        }
+//        header('Location: index.php?page=warehouse_products');
     }
 }
 
