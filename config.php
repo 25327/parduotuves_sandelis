@@ -40,4 +40,16 @@ function getUser($database, $email)
     return $user;
 }
 
+$dateToday = date('Y-m-d');
+$dateSql = "select pp.kaina, pm.marza from parduotuves_prekes pp
+            join parduotuves_marzos pm on pp.parduotuves_id = pm.parduotuves_id
+            where pp.galioja_iki = 'SdateToday' and pp.utilizuota = 0;";
+$getProducts = mysqli_query($database, $dateSql);
+$products = mysqli_fetch_all($getProducts, MYSQLI_ASSOC);
+
+foreach ($products as $product) {
+//    echo '<pre>';
+//    print_r($product);
+}
+
 ?>

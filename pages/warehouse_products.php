@@ -4,9 +4,13 @@ $products = mysqli_fetch_all($getProduct, MYSQLI_ASSOC);
 
 $action = $_GET['action'] ?? null;
 if ($action === 'order') {
-    $saveToWarehouse = 'insert into sandelio_produktai (produkto_id, likutis) value ("' . $_POST['produkto_id'] . '", "' . $_POST['likutis'] . '")';
-    mysqli_query($database, $saveToWarehouse);
-    header('Location: index.php?page=warehouse_products');
+    if ($_POST['likutis'] > 0) {
+        $saveToWarehouse = 'insert into sandelio_produktai (produkto_id, likutis) value ("' . $_POST['produkto_id'] . '", "' . $_POST['likutis'] . '")';
+        mysqli_query($database, $saveToWarehouse);
+        header('Location: index.php?page=warehouse_products');
+    } else {
+        echo 'Užsakomas kiekis turi būti 1 ir daugiau';
+    }
 }
 
 $sql = "select produktai.pavadinimas, sandelio_produktai.likutis from sandelio_produktai
