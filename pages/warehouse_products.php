@@ -5,21 +5,22 @@ $products = mysqli_fetch_all($getProduct, MYSQLI_ASSOC);
 $action = $_GET['action'] ?? null;
 if ($action === 'order') {
     $likutis = $_POST['likutis'] ?? 0;
-    if ($_POST['likutis'] > 0) {
-        $produkto_id = $_POST['produkto_id'];
+    $produkto_id = $_POST['produkto_id'];
+    if ($likutis > 0) {
         $sql = "select * from sandelio_produktai where produkto_id = $produkto_id";
         $sqlResult = mysqli_query($database, $sql);
-        $row = mysqli_fetch_row($sqlResult);
+        $item = mysqli_fetch_row($sqlResult);
         echo '<pre>';
-        print_r($row);
+        print_r($item);
 
-        if ($row == null) {
-            $saveToWarehouse = 'insert into sandelio_produktai (produkto_id, likutis) value ("' . $_POST['produkto_id'] . '", "' . $_POST['likutis'] . '")';
+        if ($item == null) {
+            $saveToWarehouse = 'insert into sandelio_produktai (produkto_id, likutis) value ("' . $produkto_id . '", "' . $likutis . '")';
             mysqli_query($database, $saveToWarehouse);
         } else {
             $sql = "update sandelio_produktai set likutis = likutis + $likutis where produkto_id = $produkto_id";
+            mysqli_query($database, $sql);
         }
-//        header('Location: index.php?page=warehouse_products');
+        header('Location: index.php?page=warehouse_products');
     }
 }
 

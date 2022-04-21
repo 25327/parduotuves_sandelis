@@ -41,15 +41,20 @@ function getUser($database, $email)
 }
 
 $dateToday = date('Y-m-d');
-$dateSql = "select pp.kaina, pm.marza from parduotuves_prekes pp
-            join parduotuves_marzos pm on pp.parduotuves_id = pm.parduotuves_id
-            where pp.galioja_iki = 'SdateToday' and pp.utilizuota = 0;";
-$getProducts = mysqli_query($database, $dateSql);
+$sqlProducts = "select produkto_id from parduotuves_prekes where galioja_iki = 'SdateToday' and  utilizuota = 0";
+$getProducts = mysqli_query($database, $sqlProducts);
 $products = mysqli_fetch_all($getProducts, MYSQLI_ASSOC);
 
-foreach ($products as $product) {
-//    echo '<pre>';
-//    print_r($product);
+$sqlMargins = "select parduotuves_id, marza from parduotuves_marzos where tipas = 'baigiasi_galiojimas'";
+$getMargins = mysqli_query($database, $sqlMargins);
+$shopMargins = mysqli_fetch_all($getMargins, MYSQLI_ASSOC);
+
+foreach ($shopMargins as $shopMargin) {
+    $sql = "update parduotuves_prekes set kaina = round(kaina - (kaina / 100 * {$shopMargin['marza']}), 2) where parduotuves_id = {$shopMargin['parduotuves_id']} and galioja_iki = '{$dateToday}'";
+    $result = mysqli_query($database, $sql);
 }
+
+$sqlValidTo = "update parduotuves_prekes set utilizuota = 1 where galioja_iki < '{$dateToday}' and utilizuota = 0";
+$result = mysqli_query($database, $sqlValidTo);
 
 ?>

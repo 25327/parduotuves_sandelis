@@ -2,8 +2,10 @@
 $getShops = mysqli_query($database, 'select * from parduotuves');
 $shops = mysqli_fetch_all($getShops, MYSQLI_ASSOC);
 
-$getProduct = mysqli_query($database, 'select * from produktai');
-$products = mysqli_fetch_all($getProduct, MYSQLI_ASSOC);
+$sql = "select sandelio_produktai.likutis, produktai.pavadinimas, produktai.id from sandelio_produktai
+            join produktai where sandelio_produktai.produkto_id = produktai.id";
+$result = mysqli_query($database, $sql);
+$products = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 $action = $_GET['action'] ?? null;
 if ($action === 'order') {
@@ -17,6 +19,7 @@ if ($action === 'order') {
 
     $price = $product[3];
     $category = $product[1];
+    $galiojaIki = date('Y-m-d', strtotime('+ ' . $product[4] . ' days'));
 
     foreach ($margins as $margin) {
         if ($category == 'Vaisiai' and $margin['tipas'] == 'vaisiu') {
@@ -25,15 +28,29 @@ if ($action === 'order') {
         } elseif ($category == 'Daržovės' and $margin['tipas'] == 'morku') {
             $price = round($price + ($price / 100 * $margin['marza']), 2);
             break;
-        } elseif ($category == 'Gėrimai' and $margin['tipas'] == 'bendras') {
+        } elseif ($margin['tipas'] == 'bendras') {
             $price = round($price + ($price / 100 * $margin['marza']), 2);
-            break;
         }
     }
 
-    $shopOrder = 'insert into parduotuves_prekes (parduotuves_id, produkto_id, kiekis, kaina, galioja_iki) value ("' . $_POST['parduotuves_id'] . '", "' . $_POST['produkto_id'] . '", "' . $_POST['kiekis'] . '", "' . $price . '", "' . $_POST['galioja_iki'] . '")';
+    $product_id = $_POST['produkto_id'];
 
-    mysqli_query($database, $shopOrder);
+    $sqlForProduct = "select sandelio_produktai.likutis, produkto_id from sandelio_produktai where produkto_id = {$product_id}";
+    $result = mysqli_query($database, $sqlForProduct);
+    $warehouseProducts = mysqli_fetch_row($result);
+
+    $orderQuantity = $_POST['kiekis'];
+    $warehouseQuantity = $warehouseProducts[0];
+
+    if ($orderQuantity <= $warehouseQuantity) {
+        $shopOrder = 'insert into parduotuves_prekes (parduotuves_id, produkto_id, kiekis, kaina, galioja_iki) value ("' . $_POST['parduotuves_id'] . '", "' . $_POST['produkto_id'] . '", "' . $orderQuantity . '", "' . $price . '", "' . $galiojaIki . '")';
+        mysqli_query($database, $shopOrder);
+
+        $sqlUpdate = "update sandelio_produktai set likutis = likutis - {$orderQuantity} where produkto_id = {$product_id}";
+        $result = mysqli_query($database, $sqlUpdate);
+    } else {
+        echo 'Užsakomas per didelis kiekis';
+    }
     header('Location: index.php?page=shops');
 }
 ?>
@@ -56,8 +73,10 @@ if ($action === 'order') {
             <td>Pasirinkite prekę</td>
             <td>
                 <select name="produkto_id">
-                    <?php foreach ($products as $product) { ?>
-                        <option value="<?php echo $product['id'] ?>"><?php echo $product['pavadinimas'] ?></option>
+                    <?php foreach ($products as $product) {
+                        ?>
+                        <option value="<?php echo $product['id'] ?>"><?php echo $product['pavadinimas'] ?>
+                            Likutis: <?php echo $product['likutis'] ?></option>
                     <?php } ?>
                 </select>
             </td>
@@ -76,7 +95,7 @@ if ($action === 'order') {
 
 <form>
     <?php
-    $getShopLists = mysqli_query($database, 'select * from parduotuves_prekes');
+    $getShopLists = mysqli_query($database, "select * from parduotuves_prekes");
     $lists = mysqli_fetch_all($getShopLists, MYSQLI_ASSOC);
 
     $sqlForShops = "select parduotuves.pavadinimas from parduotuves_prekes
@@ -124,7 +143,9 @@ if ($action === 'order') {
             </td>
             <td>
                 <?php foreach ($lists as $list) {
-                    echo $list['galioja_iki'] . '<br>';
+                    if ($list['utilizuota'] == 0) {
+                        echo $list['galioja_iki'] . '<br>';
+                    }
                 }
                 ?>
             </td>
