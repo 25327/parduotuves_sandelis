@@ -10,8 +10,6 @@ if ($action === 'order') {
         $sql = "select * from sandelio_produktai where produkto_id = $produkto_id";
         $sqlResult = mysqli_query($database, $sql);
         $item = mysqli_fetch_row($sqlResult);
-        echo '<pre>';
-        print_r($item);
 
         if ($item == null) {
             $saveToWarehouse = 'insert into sandelio_produktai (produkto_id, likutis) value ("' . $produkto_id . '", "' . $likutis . '")';
@@ -30,11 +28,14 @@ $result = mysqli_query($database, $sql);
 $warehouseProducts = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 if ($action === 'delete') {
-//    $produkto_id = $_POST['produkto_id'];
-
-    $sql = "delete from sandelio_produktai where id = 1"; // neveikia
+    $sql = "select produkto_id from sandelio_produktai where produkto_id = {$_POST['produkto_id']}";
     $result = mysqli_query($database, $sql);
-    header('Location: index.php?page=warehouse_products');
+    $produkto_id = mysqli_fetch_all($result, MYSQLI_ASSOC);
+var_dump($produkto_id);
+
+    $sql = "delete from sandelio_produktai where produto_id = {$produkto_id}";
+    $result = mysqli_query($database, $sql);
+//    header('Location: index.php?page=warehouse_products');
 }
 ?>
 

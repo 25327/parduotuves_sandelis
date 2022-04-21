@@ -1,22 +1,17 @@
 <?php
-// ijungti klaidu pranesimus
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// pradedam sesiją
 session_start();
 
-//prisijungimai prie duomenu bazes
 $ip = 'localhost';
 $username = 'root';
 $password = '';
 $database = 'parduotuves_sandelis';
 
-// jungiames prie duomenu bazes
 $database = mysqli_connect($ip, $username, $password, $database);
 
-// Tikrinam ar pavyko prisijungti prie duomenu bazes
 if (!$database) {
     die("Connection failed: " . mysqli_connect_error());
 }
@@ -56,5 +51,4 @@ foreach ($shopMargins as $shopMargin) {
 
 $sqlValidTo = "update parduotuves_prekes set utilizuota = 1 where galioja_iki < '{$dateToday}' and utilizuota = 0";
 $result = mysqli_query($database, $sqlValidTo);
-
 ?>
